@@ -1,0 +1,42 @@
+# 简单个人博客系统（Vue + Node.js + MySQL）
+
+## 技术栈
+
+- 前端：Vue3 + Vite + Vue Router + Pinia + Element Plus
+- 后端：Node.js + Express + Sequelize + JWT
+- 数据库：MySQL
+
+## 功能说明
+
+- 游客：
+  - 查看文章列表
+  - 按标题关键词搜索
+  - 查看文章详情（包含评论和点赞数）
+- 登录用户：
+  - 注册、登录
+  - 发表文章
+  - 对文章进行评论
+  - 对文章点赞 / 取消点赞
+- 数据持久化存储在 MySQL 中
+
+## 环境准备
+
+1. 安装 Node.js（建议 18 或以上）
+2. 安装 MySQL
+3. 创建数据库：
+
+```sql
+CREATE DATABASE my_blog DEFAULT CHARACTER SET utf8mb4;
+
+后端启动
+cd server
+npm install
+# 修改 .env 中的 DB_USER、DB_PASS
+npm run dev
+默认运行在 http://localhost:3001
+
+前端启动
+cd web
+npm install
+npm run dev
+默认访问 http://localhost:5173
