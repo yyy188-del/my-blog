@@ -27,16 +27,4 @@
 
 ```sql
 CREATE DATABASE my_blog DEFAULT CHARACTER SET utf8mb4;
-
-后端启动
-cd server
-npm install
-# 修改 .env 中的 DB_USER、DB_PASS
-npm run dev
-默认运行在 http://localhost:3001
-
-前端启动
-cd web
-npm install
-npm run dev
-默认访问 http://localhost:5173
+```
