@@ -1,13 +1,34 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const svgCaptcha = require("svg-captcha");
 require("dotenv").config();
 
 const { User } = require("../models");
 
+router.get("/captcha", (req, res) => {
+  const captcha = svgCaptcha.create({
+    size: 4,
+    ignoreChars: "0o1i5s",
+    noise: 2, 
+    color: true, 
+    background: "#f0f0f0"
+  });
+  
+  req.session.captcha = captcha.text.toLowerCase();
+  
+  res.type("svg");
+  res.send(captcha.data);
+});
+
 router.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, captcha } = req.body;
+
+    if (!captcha || captcha.toLowerCase() !== req.session.captcha) {
+      return res.status(400).json({ msg: "验证码错误" });
+    }
+
     if (!username || !password)
       return res.status(400).json({ msg: "need data" });
 
@@ -24,7 +45,11 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, captcha } = req.body;
+
+    if (!captcha || captcha.toLowerCase() !== req.session.captcha) {
+      return res.status(400).json({ msg: "验证码错误" });
+    }
 
     const user = await User.findOne({ where: { username } });
     if (!user) return res.status(400).json({ msg: "user not found" });
